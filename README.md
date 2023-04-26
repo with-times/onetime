@@ -28,7 +28,23 @@ DB_USERNAME=database_username
 DB_PASSWORD=database_password
 # Feed订阅ssl验证
 FEED_VERIFY=false
-
+# 全文搜索驱动以及是否开启队列
 SCOUT_QUEUE=true
 SCOUT_DRIVER=database
+```
+
+## 导入全文搜索索引
+```shell
+$ php artisan scout:import "App\Models\Web/Website"
+$ php artisan scout:import "App\Models\Web/Subscribe"
+```
+
+## 配置job定时任务
+
+```shell
+#本地运行调度程序
+$ php artisan schedule:work
+#运行队列
+$ php artisan queue:work
+
 ```
