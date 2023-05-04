@@ -1,13 +1,12 @@
 <?php
 
-/**
- * 注册
- */
-
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * 注册
+ */
 Route::post('/register', [AuthController::class, 'register']);
 /**
  * 登录
@@ -20,6 +19,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/', [AuthController::class, 'getUser']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/changePassword', [AuthController::class, 'changePassword']);
     Route::post('/email/verification-notification', function (Request $request) {
         if ($request->user()->hasVerifiedEmail()) {
             return response()->json([

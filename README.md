@@ -4,15 +4,14 @@
 
 ## 安装
 ```shell
-$ git clone https://github.com/with-times/onetime.git
+git clone https://github.com/with-times/onetime.git
 ```
 
 ```shell
-$ cd onetime
-$ composer install
-$ cp .env.example .env
-$ php artisan key:generate
-
+cd onetime
+composer install
+cp .env.example .env
+php artisan key:generate
 ```
 
 ## 配置数据库连接信息
@@ -33,18 +32,22 @@ SCOUT_QUEUE=true
 SCOUT_DRIVER=database
 ```
 
+## 创建令牌
+```shell
+php artisan passport:install
+```
 ## 导入全文搜索索引
 ```shell
-$ php artisan scout:import "App\Models\Web/Website"
-$ php artisan scout:import "App\Models\Web/Subscribe"
+php artisan scout:import "App\Models\Web/Website"
+php artisan scout:import "App\Models\Web/Subscribe"
 ```
 
 ## 配置job定时任务
 
 ```shell
 #本地运行调度程序
-$ php artisan schedule:work
+php artisan schedule:work
 #运行队列
-$ php artisan queue:work
+php artisan queue:work
 
 ```

@@ -5,6 +5,7 @@ namespace App\Services\Auth;
 use App\Jobs\Auth\Register;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -19,27 +20,6 @@ use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
-    /**
-     * createUser($data)：创建一个新用户。
-     *
-     * updateUser($userId, $data)：更新一个已存在的用户的信息。
-     *
-     * deleteUser($userId)：删除一个已存在的用户。
-     *
-     * getUserById($userId)：根据用户ID获取用户信息。
-     *
-     * getUsers($filters = [])：获取所有用户列表，支持筛选条件。
-     *
-     * getUserByEmail($email)：根据电子邮件地址获取用户信息。
-     *
-     * getUserByUsername($username)：根据用户名获取用户信息。
-     *
-     * changePassword($userId, $oldPassword, $newPassword)：修改用户密码。
-     *
-     * resetPassword($userId)：重置用户密码。
-     *
-     * authenticate($email, $password)：验证用户登录信息。
-     */
 
     /**
      *
@@ -178,7 +158,7 @@ class AuthService
      * @param $data
      * @return Authenticatable|string|null
      * @date 2023/4/9
-     * @throws \Exception
+     * @throws Exception
      * @throws ValidationException
      * @author 刘铭熙
      */
@@ -204,14 +184,44 @@ class AuthService
             'email' => $data['email'],
             'password' => $data['password']
         ];
-        if(Auth::attempt($credentials, $data['remember'])){
+        if (Auth::attempt($credentials, $data['remember'])) {
             return Auth::user();
-        }else{
-            throw new \Exception('账号或密码错误，请重试.',401);
+        } else {
+            throw new Exception('账号或密码错误，请重试.', 401);
         }
 
 
+    }
 
+
+    /**
+     *
+     * @fun changePassword
+     * @param User $user
+     * @param $old
+     * @param $new
+     * @return string
+     * @date 2023/5/4
+     * @throws Exception
+     * @author 刘铭熙
+     */
+    public function changePassword($old, $new): string
+    {
+        $user = Auth::user();
+        if (Auth::check()) {
+            if (Hash::check($old, $user->getAuthPassword())) {
+                $password = Hash::make($new);
+                $user->password = $password;
+                $user->save();
+
+                return '更新密码成功';
+            } else {
+                throw new Exception('旧密码不正确', 422);
+            }
+
+        } else {
+            throw new Exception('用户未登录', 422);
+        }
     }
 
 }

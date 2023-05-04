@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\Auth\AuthService;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -77,8 +78,10 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
+        \auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return $this->json([], '已退出登录');
-
     }
 
     /**
@@ -148,5 +151,25 @@ class AuthController extends Controller
             return $this->json([], 'The request error', 422);
         }
 
+    }
+
+    /**
+     *
+     * @fun changePassword
+     * @param Request $request
+     * @return JsonResponse
+     * @date 2023/5/4
+     * @author 刘铭熙
+     */
+    public function changePassword(Request $request): JsonResponse
+    {
+        try {
+            $message = $this->authService->changePassword(
+                $request->input('oldPassword'),
+                $request->input('newPassword'));
+            return $this->json([],$message);
+        } catch (\Exception $e) {
+            return $this->error($e);
+        }
     }
 }

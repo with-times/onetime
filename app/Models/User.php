@@ -14,6 +14,7 @@ use Laravel\Passport\HasApiTokens;
 
 /**
  * @property mixed $email
+ * @property mixed|string $password
  * @method static create($data)
  */
 class User extends Authenticatable implements MustVerifyEmail
