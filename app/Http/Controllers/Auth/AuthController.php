@@ -78,9 +78,6 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        \auth()->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
         return $this->json([], '已退出登录');
     }
 

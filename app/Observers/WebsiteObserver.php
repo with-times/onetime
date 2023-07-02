@@ -30,7 +30,7 @@ class WebsiteObserver
 
         $this->deedService->create(
             'created',
-            "'{$webSite->title()}'正式加入与时同行，编号为{$webSite->number()}",
+            "'{$webSite->title}'正式加入与时同行，编号为{$webSite->number()}",
             $webSite
         );
     }

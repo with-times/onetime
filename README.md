@@ -38,8 +38,8 @@ php artisan passport:install
 ```
 ## 导入全文搜索索引
 ```shell
-php artisan scout:import "App\Models\Web/Website"
-php artisan scout:import "App\Models\Web/Subscribe"
+php artisan scout:import "App\Models\Web\WebSite"
+php artisan scout:import "App\Models\Web\Subscribe"
 ```
 
 ## 配置job定时任务
